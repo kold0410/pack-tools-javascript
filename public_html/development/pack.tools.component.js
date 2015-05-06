@@ -47,12 +47,19 @@ HTMLComponent.prototype = {
     
     /* Nos permite agregar los atributos del Componente */
     addAttribute : function (attribute) {
-        /* Agregando atributo */
-        if (attribute instanceof  HTMLAttribute) { this.attributes.push(attribute); } 
+        try {
+            if (Tools.isUndefined(attribute)) {
+                throw 'el atributo establecido no esta definido ó instanciado.';
+            } /* Excepción generada */
+            
+            if (!(attribute instanceof  HTMLAttribute)) { 
+                throw 'el atributo establecido no es de tipo HTMLAttribute.';
+            } /* Excepción generada */
+            
+            this.attributes.push(attribute); /* Agregando atributo */
+        } /* El atributo a agregar es de tipo HtmlAttribute */
         
-        else {
-            console.error("Pack Tools Component: el objeto atributo no es de tipo HTMLAttribute.");
-        } /* El atributo a agregar no es de tipo HtmlAttribute */
+        catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
     },
     
     /* Nos permite establecer el texto del Componente a crear */
@@ -60,17 +67,28 @@ HTMLComponent.prototype = {
     
     /* Nos permite agregar componentes hijos al Componente */
     addComponent : function (component) {
-        /* Agregando componente */
-        if (component instanceof  HTMLComponent) { this.components.push(component); } 
+        try {
+            if (Tools.isUndefined(component)) {
+                throw 'el componente establecido no esta definido ó instanciado.';
+            } /* Excepción generada */
+            
+            if (!(component instanceof  HTMLComponent)) {
+                throw 'el componente establecido no es de tipo HTMLComponent.';
+            } /* Excepción generada */
+            
+            this.components.push(component); /* Agregando componente */
+        } /* El componente a agregar es de tipo HTMLComponent */
         
-        else {
-            console.error("Pack Tools Component: el objeto componente no es de tipo HTMLComponent.");
-        } /* El atributo a agregar no es de tipo HtmlAttribute */
+        catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
     },
     
     /* Nos permite generar el componente final a Agregar */
     createComponent : function () {
-        if (this.type) {
+        try {
+            if (!this.type) {
+                throw 'no ha establecido el tipo de etiqueta del Componente.';
+            } /* Excepción */
+            
             var component = "<" + this.type; /* Iniciando etiqueta de configuración */
             
             if (this.id) { component += " id='" + this.id + "'"; } /* Se estableció identificador de Componente */
@@ -111,8 +129,6 @@ HTMLComponent.prototype = {
             return component; /* Retornando configuración del componente */
         } /* Creando componente */
         
-        else {
-            console.error("Pack Tools Component: No ha establecido el tipo de etiqueta del Componente.");
-        } /* No ha establecido tipo de etiqueta del Componente */
+        catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
     }
 };
