@@ -13,36 +13,29 @@ and open the template in the editor.
     <body>
         <a href="http://jscompress.com/">Página para comprimir los Scripts</a>
         <div id="div"></div>
+        <input id="x" class="z" type="text">
+        <input id="y" class="z" type="text">
+        <input id="a" class="f" type="checkbox">
         
         <script src="jquery-2.1.3.min.js" type="text/javascript"></script>
-<!--        <script src="development/pack.tools.js" type="text/javascript"></script>
+        <script src="development/pack.tools.js" type="text/javascript"></script>
         <script src="development/pack.tools.component.js" type="text/javascript"></script>
-        <script src="development/pack.tools.datetime.js" type="text/javascript"></script>-->
+        <script src="development/pack.tools.datetime.js" type="text/javascript"></script>
+        <script src="plugin/jquery.validate.input.js" type="text/javascript"></script>
 
-<script src="min/pack.tools.min.js" type="text/javascript"></script>
+<!--<script src="min/pack.tools.min.js" type="text/javascript"></script>
 <script src="min/pack.tools.component.min.js" type="text/javascript"></script>
-<script src="min/pack.tools.datetime.min.js" type="text/javascript"></script>
+<script src="min/pack.tools.datetime.min.js" type="text/javascript"></script>-->
         <script>
             jQuery(document).ready(function () {
-                //jQuery('#div').html(new Date().getDateSQLFormat());
+                var number = 2100000000000; 
+                jQuery('#div').html(Tools.DescribeNumber.getMonetaryExpression(String(number)) + ' : ' + Tools.DescribeNumber.get('033'));
+                console.log(new Date().getDateDescription());
                 
-                var x = new Date(2016,8,20); console.log(x); 
-                console.log(x.calculateDaysElapsed(new Date(2016,8,15)));
-                console.log(x.calculateDaysMissing(new Date(2016,8,28)));
-                console.log(x.isDateBerfore(new Date(2016,8,15)) ? 'Esta antes' : 'No esta');
-                console.log(x.isDateBerfore(new Date(2016,8,28)) ? 'Esta antes' : 'No esta');
-                console.log("Aumentando 15 dias: " + DateTimeTools.increaseDaysOfDate(x,15));
-                console.log("Aumentando 2 meses: " + DateTimeTools.increaseMonthsOfDate(x,2));
-                console.log("Disminuyendo 35 dias: " + DateTimeTools.decreaseDaysOfDate(x,35));
-                
-                var c = new HTMLComponent("div");
-                c.setId("my-div"); c.setText("Hola Daniel " + x.isLeapYear());
-                c.addClass("container"); //c.addAttribute(0); 
-                //c.addComponent(undefined); 
-                
-                console.log(DateTimeTools.calculateDifference(new Date(),x));
-                
-                jQuery('#div').html(c.createComponent());
+                jQuery('.z').textControl(Tools.TextControl.alfa_numerico_space,25);                
+                jQuery('#a').checked(function () {
+                    console.log('Activo');
+                }, function () { console.log('Inactivo');});
             });
         </script>
     </body>

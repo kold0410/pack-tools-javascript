@@ -8,6 +8,29 @@ var DateTimeTools = {
         return ((year % 4 === 0) && (year % 100 !== 0 || year % 400 === 0));
     },
 
+    /* Creamos un array con los dias de una Semana */
+    getDaysOfWeek : function () {
+        var daysWeek = new Array();  daysWeek.push('Lunes');
+        daysWeek.push('Martes'); daysWeek.push('Miércoles');
+        daysWeek.push('Jueves'); daysWeek.push('Viernes');
+        daysWeek.push('Sábado'); daysWeek.push('Domingo'); 
+
+        return daysWeek; /* Retornando dias de la Semana */
+    },
+    
+    /* Creamos un array con los meses de un Año */
+    getMonthsOfYear : function () {
+        var monthsYear = new Array();  /* Instanciando el Array */
+        monthsYear.push('Enero'); monthsYear.push('Febrero'); 
+        monthsYear.push('Marzo'); monthsYear.push('Abril'); 
+        monthsYear.push('Mayo'); monthsYear.push('Junio'); 
+        monthsYear.push('Julio'); monthsYear.push('Agosto'); 
+        monthsYear.push('Septiembre'); monthsYear.push('Octubre'); 
+        monthsYear.push('Noviembre'); monthsYear.push('Diciembre'); 
+
+        return monthsYear; /* Retornando dias de la Semana */
+    },
+
     /* Creamos un array con el número de dias de los meses de un Año */
     getNumberDaysOfMonth : function (year) {
         var numberDays = new Array(); numberDays.push(31); /* Enero */
@@ -126,6 +149,14 @@ var DateTimeTools = {
         return new Date(year,month,day); /* Retornando nueva Fecha */
     },
     
+    /* Nos permite incrementar una Fecha con el número de dias de un Mes */
+    increaseDateWithDaysOfMonth : function (date, month) {
+        if ((month > -1) && (month < 12)) {
+            var numberDays = DateTimeTools.getNumberDaysOfMonth(date.getFullYear());
+            return this.increaseDaysOfDate(date,numberDays[month]);
+        } /* Rango de meses posibles */
+    },
+    
     /* Nos permite decrementar en dias una Fecha */
     decreaseDaysOfDate : function (date, numDays) {
         var day = date.getDate(), month = date.getMonth(), year = date.getFullYear();
@@ -146,6 +177,14 @@ var DateTimeTools = {
         }
         
         return new Date(year,month,day); /* Retornando nueva Fecha */
+    },
+    
+    /* Nos permite decrementar una Fecha con el número de dias de un Mes */
+    decreaseDateWithDaysOfMonth : function (date, month) {
+        if ((month > -1) && (month < 12)) {
+            var numberDays = DateTimeTools.getNumberDaysOfMonth(date.getFullYear());
+            return this.decreaseDaysOfDate(date,numberDays[month]);
+        } /* Rango de meses posibles */
     }
 };
 
@@ -153,27 +192,87 @@ var DateTimeTools = {
 Date.prototype.isLeapYear = function () { return DateTimeTools.isLeapYear(this.getFullYear()); };
 
 /* Calcular número de dias que han transcurrido desde una fecha anterior */
-Date.prototype.calculateDaysElapsed = function (date) { return DateTimeTools.calculateDifference(date,this); };
+Date.prototype.calculateDaysElapsed = function (date) { 
+    try {
+        if (Tools.isUndefined(date) || !(date instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        return DateTimeTools.calculateDifference(date,this); 
+    } /* Calculando dias trasncurridos entre fechas */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
+};
 
 /* Calcular número de dias que falta para llegar a una fecha superior */
-Date.prototype.calculateDaysMissing = function (date) { return DateTimeTools.calculateDifference(this,date); };
+Date.prototype.calculateDaysMissing = function (date) { 
+    try {
+        if (Tools.isUndefined(date) || !(date instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        return DateTimeTools.calculateDifference(this,date); 
+    } /* Calculando dias faltantes entre fechas */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
+};
 
 /* Nos permite saber si la fecha se encuentra antes de una establecida */
-Date.prototype.isDateBerfore = function (date) { return (this.calculateDaysMissing(date) > 0); };
+Date.prototype.isDateBerfore = function (date) { 
+    try {
+        if (Tools.isUndefined(date) || !(date instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        return (this.calculateDaysMissing(date) > 0); 
+    } /* Determinando si fecha esta antes de la establecida */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
+};
 
 /* Nos permite saber si la fecha se encuentra despues de una establecida */
-Date.prototype.isDateAfter = function (date) { return (this.calculateDaysElapsed(date) > 0); };
+Date.prototype.isDateAfter = function (date) { 
+    try {
+        if (Tools.isUndefined(date) || !(date instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        return (this.calculateDaysElapsed(date) > 0); 
+    } /* Determinando si fecha esta despues de la establecida */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
+};
 
 /* Nos permite saber si la fecha se encuentra entre un rango de Fecha */
-Date.prototype.isDateBetween = function (date_intial, date_final) { return this.isAfter(date_intial) && this.isBerfore(date_final); };
+Date.prototype.isDateBetween = function (date_intial, date_final) { 
+    try {
+        if (Tools.isUndefined(date_intial) || !(date_intial instanceof Date)) {
+            throw 'la fecha inicial establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        if (Tools.isUndefined(date_final) || !(date_final instanceof Date)) {
+            throw 'la fecha final establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        return this.isAfter(date_intial) && this.isBerfore(date_final); 
+    } /* Determinando si fecha esta entre las establecidas */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
+};
 
 /* Nos permite saber si la fecha es igual a una especifícada */
-Date.prototype.dateEquals = function (date) {
-    if (this.getDate() !== date.getDate()) { return false; } /* Dias de fechas son diferentes */
-
-    if (this.getMonth() !== date.getMonth()) { return false; } /* Meses de fechas son diferentes */
-
-    return (this.getFullYear() === date.getFullYear()); /* Verificando años de fechas */
+Date.prototype.equalsDate = function (date) {
+    try {
+        if (Tools.isUndefined(date) || !(date instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        if (this.getDate() !== date.getDate()) { return false; } /* Dias de fechas son diferentes */
+        if (this.getMonth() !== date.getMonth()) { return false; } /* Meses de fechas son diferentes */
+        return (this.getFullYear() === date.getFullYear()); /* Verificando años de fechas */
+    } /* Determinando si fecha es igual a la establecida */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
 };
 
 /* Nos permite generar una cadena con un formato de fecha aaaa-mm-dd */
@@ -183,6 +282,20 @@ Date.prototype.getDateFormat = function () {
     date_format += '-' + DateTimeTools.completField(this.getDate(),2); 
     
     return date_format; /* Retornando fecha con formato aaaa-mm-dd */
+};
+
+/* Nos permite describir la Fecha */
+Date.prototype.getDateDescription = function (isDayWeek) {
+    var monthsYear = DateTimeTools.getMonthsOfYear();
+    
+    var description = this.getDate() + ' de ' + monthsYear[this.getMonth()];
+    description += ' del ' + this.getFullYear(); /* Completando descripción */
+    
+    if (isDayWeek) {
+        var daysWeek = DateTimeTools.getDaysOfWeek(); description += ', ' + daysWeek[this.getDay()];
+    } /* Se requiere en la descripción el dia de la Semana de Fecha */
+    
+    return description; /* Retornando la descripción de la Fecha */
 };
 
 /* Nos permite generar un código con un formato de aaaammdd */
@@ -195,12 +308,20 @@ Date.prototype.getDateCode = function () {
 };
 
 /* Nos permite saber si la hora es igual a una especifícada */
-Date.prototype.timeEquals = function (time) {
-    if (this.getSeconds() !== time.getSeconds()) { return false; } /* Segundos de tiempo son diferentes */
-
-    if (this.getMinutes() !== time.getMinutes()) { return false; } /* Minutos de tiempo son diferentes */
-
-    return (this.getHours() === time.getHours()); /* Verificando horas del tiempo */
+Date.prototype.equalsTime = function (time) {
+    try {
+        if (Tools.isUndefined(time) || !(time instanceof Date)) {
+            throw 'la fecha establecida no esta definida ó instanciada, en su defecto no es de tipo Date.';
+        } /* Excepción generada */
+        
+        /* Segundos de tiempo son diferentes */
+        if (this.getSeconds() !== time.getSeconds()) { return false; } 
+        /* Minutos de tiempo son diferentes */
+        if (this.getMinutes() !== time.getMinutes()) { return false; } 
+        return (this.getHours() === time.getHours()); /* Verificando horas del tiempo */
+    } /* Determinando si tiempo es igual al establecido */
+    
+    catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
 };
 
 /* Nos permite generar una cadena con un formato de hora hh-mm-ss */
@@ -220,3 +341,11 @@ Date.prototype.getTimeCode = function () {
     
     return time_code; /* Retornando formato de código hhmmss */
 };
+
+/* Nos permite generar una cadena con un formato de fecha-hora */
+Date.prototype.getDateTimeFormat = function () {
+    return this.getDateFormat() + '' + this.getTimeFormat();
+};
+
+/* Nos permite generar un código con un formato de aaaammddhhmmss */
+Date.prototype.getDateTimeCode = function () { return this.getDateCode() + this.getTimeCode(); };
