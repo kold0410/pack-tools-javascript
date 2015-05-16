@@ -1,6 +1,6 @@
 
 /* 
-     jQuery ValidateInput 1.0.0
+     jQuery PackTools 1.0.0
      Author: Daniel Andres Castillo Pedroza
      Date: 07 de Mayo de 2015
 */
@@ -46,7 +46,7 @@
                 var tagComponent = component.prop('tagName');
                 
                 if (tagComponent !== 'INPUT' && tagComponent !== 'TEXTAREA') {
-                    throw 'el componente establecido para el control no es de tipo Input.';
+                    throw 'el componente establecido para el control no es de tipo <input> ó <textarea>';
                 } /* Excepción */
                 
                 switch (tagComponent) {
@@ -76,6 +76,10 @@
                                 else { if (failed) { failed(e.charCode); } return false; } /* Caracter no permitido */
                             });
                         } /* El input es de tipo Text */
+                        
+                        else {
+                            throw 'el componente <input> establecido para el control no es type="text"';
+                        } /* Excepción */
                     break; /* El componente es un Input */
                 }
             } /* Agregando evento a los componentes */
@@ -83,7 +87,8 @@
             catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
         },
         
-        checked : function (sucess, failed) {
+        /* Función para establecer eventos cuando se activan o desactiva selección */
+        checked : function (eventChecked, eventUnChecked) {
             var component = jQuery(this); /* Obteniendo componente CheckBox */
             
             try {
@@ -95,12 +100,18 @@
                 
                 if (component.attr('type') && component.attr('type') === 'checkbox') {
                     component.click(function () {
-                        if (component.prop('checked')) { if (sucess) { sucess(); } } else { if (failed) { failed(); } } 
+                        if (component.prop('checked')) { if (eventChecked) { eventChecked(); } } else { if (eventUnChecked) { eventUnChecked(); } } 
                     });
                 }
             } /* Agregando evento a los componentes */
             
             catch (err) { console.error('Uncaught TypeError: ' + err); } /* Error generado */
-        }
+        },
+        
+        /* Función para validar la cantidad minima de caracteres de un componente */
+        minContains : function (minChars) { return jQuery(this).val().length >= minChars; },
+        
+        /* Función para validar la cantidad máxima de caracteres de un componente */
+        maxContains : function (maxChars) { return jQuery(this).val().length <= maxChars; }
     });
 })(jQuery);

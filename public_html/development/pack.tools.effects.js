@@ -1,33 +1,4 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/pack.tools.effects.css" rel="stylesheet" type="text/css"/>
-    </head>
-    <body>
-        <a href="http://jscompress.com/">Página para comprimir los Scripts</a>
-        <div id="div"></div>
-        <input id="x" class="z" type="text">
-        <input id="y" class="z" type="text">
-        <input id="a" class="f" type="checkbox">
-        <div class="fixed-action-btn">
-            <a class="waves-effect waves-light btn-floating"></a>
-        </div>
-         
-        <script src="jquery-2.1.3.min.js" type="text/javascript"></script>
-        <script src="development/pack.tools.js" type="text/javascript"></script>
-        <script src="development/pack.tools.component.js" type="text/javascript"></script>
-        <script src="development/pack.tools.datetime.js" type="text/javascript"></script>
-<!--        <script src="materialize.js" type="text/javascript"></script>-->
-<script>
-    (function(window) {
+(function(window) {
     'use strict';
 
     var Waves = Waves || {};
@@ -356,23 +327,3 @@ and open the template in the editor.
     }, false);
 
 })(window);
-</script>
-        <script src="plugin/jquery.validate.input.js" type="text/javascript"></script>
-
-<!--<script src="min/pack.tools.min.js" type="text/javascript"></script>
-<script src="min/pack.tools.component.min.js" type="text/javascript"></script>
-<script src="min/pack.tools.datetime.min.js" type="text/javascript"></script>-->
-        <script>
-            jQuery(document).ready(function () {
-                var number = 2100000000000; 
-                jQuery('#div').html(Tools.DescribeNumber.getMonetaryExpression(String(number)) + ' : ' + Tools.DescribeNumber.get('033'));
-                console.log(new Date().getDateDescription());
-                
-                jQuery('.z').textControl(Tools.TextControl.alfa_numerico_space,25);                
-                jQuery('#a').checked(function () {
-                    console.log('Activo');
-                }, function () { console.log('Inactivo');});
-            });
-        </script>
-    </body>
-</html>
